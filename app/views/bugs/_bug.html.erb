@@ -1,0 +1,61 @@
+<% if bug.bug_type == "bug"%>
+
+  <div class="image-container">
+  <% if bug.image.present? %>
+  <%= image_tag bug.image.url, alt: "Profile Image", class: "uploaded-image" %>
+<% else %>
+  <p>No profile image available.</p>
+<% end %>
+</div>
+
+<p><strong>Title:</strong><%= bug.title %></p>
+<p>
+  <h3>Description:</h3>
+  <%= bug.description %>
+</p>
+
+<p>
+  <h3>deadline:</h3>
+  <%= bug.deadline %>
+</p>
+<p>
+  <h3>Type:</h3>
+  <%= bug.bug_type %>
+</p>
+<p>
+  <h3>status:</h3>
+  <%= bug.status %>
+</p>
+<%= link_to "Update it", edit_project_bug_path(@project, bug) %>
+<%# <% if can? :Destroy,bug %>
+<h5><%= link_to "Destroy", [@project, bug], data: {
+                                              turbo_method: :delete,
+                                              turbo_confirm: "Are you sure?",
+                                            } %></h5>
+<% else %>
+<p><strong>Title:</strong><%= bug.title %></p>
+<h1>Feature</h1>
+<p>
+  <h3>Description:</h3>
+  <%= bug.description %>
+</p>
+
+<p>
+  <h3>deadline:</h3>
+  <%= bug.deadline %>
+</p>
+<p>
+  <h3>Type:</h3>
+  <%= bug.bug_type %>
+</p>
+<p>
+  <h3>status:</h3>
+  <%= bug.status %>
+</p>
+<%= link_to "Update it", edit_project_bug_path(@project, bug) %>
+<%# <% if can? :Destroy,bug %>
+<h5><%= link_to "Destroy", [@project, bug], data: {
+                                              turbo_method: :delete,
+                                              turbo_confirm: "Are you sure?",
+                                            } %></h5>
+<% end %>

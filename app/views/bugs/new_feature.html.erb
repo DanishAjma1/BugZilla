@@ -1,0 +1,33 @@
+<h2>Add a Feature</h2>
+<%= form_with model: [@project,@project.bugs.build] do |form| %>
+  <div>
+    <%= form.label :title, "Title" %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div>
+    <%= form.label :bug_type, "Type.." %><br>
+    <%= form.radio_button :bug_type, "feature", checked: @bug.bug_type == "feature" %>
+    <%= form.label :bug_type_feature, "Feature" %><br>
+  </div>
+
+  <div>
+    <%= form.label :status, "Status" %>
+    <%= form.select :status, status_options(@bug.bug_type) %>
+  </div>
+
+  <div>
+    <%= form.label :deadline, "Deadline" %>
+    <%= form.date_field :deadline %>
+  </div>
+
+  <div>
+    <%= form.label :description, "Description" %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div>
+    <%= form.submit "Save Bug" %>
+  </div>
+<% end %>
+<%= link_to "Back", @project%>

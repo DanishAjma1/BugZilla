@@ -1,0 +1,48 @@
+<h1>Edit This Bug</h1>
+<%= form_with model: [@project, @bug], local: true do |form| %>
+  <div>
+    <%= form.label :bug_type, "bug_type" %><br>
+    <% if @bug.bug_type == "feature"%>
+    <%= form.radio_button :bug_type, "feature", checked: @bug.bug_type == "feature" %>
+    <%= form.label :bug_type_feature, "Feature" %><br>
+
+    <% else %>
+    <%= form.radio_button :bug_type, "bug", checked: @bug.bug_type == "bug" %>
+    <%= form.label :bug_type_bug, "Bug" %>
+
+    <% if policy(@bug).qa? %>
+      <div class="form-group">
+        <%= form.label :image %>
+        <%= form.file_field :image %>
+    </div>
+  <% end %>
+
+    <% end %>
+  </div>
+
+  <div class="field">
+    <%= form.label :title %>
+    <%= form.text_field :title, readonly: !policy(@bug).permitted_attributes.include?(:title) %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description, readonly: !policy(@bug).permitted_attributes.include?(:description) %>
+  </div>
+
+  <div class="field">
+    <%= form.label :status %>
+    <%= form.select :status, status_options(@bug.bug_type), readonly: !policy(@bug).permitted_attributes.include?(:status) %>
+  </div>
+
+  <div class="field">
+    <%= form.label :deadline %>
+    <%= form.date_field :deadline, readonly: !policy(@bug).permitted_attributes.include?(:deadline) %>
+  </div>
+
+  <div>
+    <%= form.submit "Save Bug" %>
+  </div>
+<% end %>
+
+<%= link_to "Back", @project%>

@@ -1,0 +1,15 @@
+<h1>Projects List</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Project Title</th>
+      <th>Description</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody id="projects-table-body">
+    <%= render partial: "projects/table", locals: { projects: @projects } %>
+  </tbody>
+</table>
+  <p><%= link_to "New Project", new_project_path %></p>

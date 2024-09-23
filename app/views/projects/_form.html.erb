@@ -1,0 +1,32 @@
+<%= form_with(model: @project) do |form| %>
+  <div>
+    <%= form.label :Title %><br>
+    <%= form.text_field :title %>
+  </div>
+
+  <div>
+    <%= form.label :Description %><br>
+    <%= form.text_area :description %>
+  </div>
+
+    <div>
+      
+    <%= form.label :status %><br />
+    <%# <%= f.select :role, options_for_select(["admin", "user"]) %>
+    <%= form.select :status, options_for_select(Project.statuses.keys.map { |s| [s.humanize, s] }) %>
+  </div>
+  <div>
+   <!-- Select Developers -->
+  <%= form.label :developers, 'Assign Developers' %><br>
+  <%# <%= collection_select :project, :developer_ids, User.developers, :id, :email, { selected: @project.users.developers.pluck(:id) }, { multiple: true, name: "developer_ids[]" } %>
+    <%= collection_select :project, :developer_ids, User.developers, :id, :email, { selected: @project.users.developers.none }, { multiple: true, name: "developer_ids[]" } %>
+
+  <!-- Select QAs --><div class="field">
+    <%= form.label :qas, 'Assign QA Members' %><br>
+    <%= collection_select :project, :qa_ids, User.qas, :id, :email, { selected: @project.users.qas.none }, { multiple: true, name: "qa_ids[]" } %>
+  </div>
+<div>
+  <%= form.submit "Save Project" %>
+  </div>
+<% end %>
+<%= link_to "Back", projects_path%>

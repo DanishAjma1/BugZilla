@@ -1,0 +1,48 @@
+<style>
+  .bugs
+  {
+    margin-left: 10%;
+  }
+  </style>
+<p>Project is open to view..........</p>
+<h2><%= @project.title %></h1>
+<div>
+  <p><strong>Description: </strong><%= @project.description%></p>
+  <p><strong>Status: </strong><%= @project.status%></p>
+  <% if @developers.present?%>
+    <h3>Developers</h3>
+    <ul>
+    <% @developers.each do |developer| %>
+    <li><%= developer.email %>
+    <button><%= link_to 'Remove', redirect_to_edit_project_path(@project)%></button>
+    </li>
+  <% end %>
+  </ul>
+  <% else %>
+  <p><b>No Developers Members assigned</b></p>
+  <%end %>
+
+  <% if @qas.present?%>
+  <h3>QA Members</h3>
+  <ul>
+    <% @qas.each do |qa| %>
+      <li><%= qa.email %>(QA)
+      <button><%= link_to 'Remove', redirect_to_edit_project_path(@project) %></button>
+      </li>
+    <% end %>
+  </ul>
+  <% else %>
+  <p>No QA Members assigned</p>
+  <% end %>
+</div>
+
+<div class="bugs">
+<p>Below the Bugs & Features are listed associated to project.</p>
+<h2>Bugs List<h2>
+<%= render @project.bugs %>
+<h2>Report a Bug OR Add a Feature..:</h2>
+<p><%= link_to "Report Bug", new_project_bug_path(@project, type: "bug") %></p>
+<p><%= link_to "Add Feature", new_project_bug_path(@project, type: "feature") %></p>
+
+</div>
+<%= link_to "Back", projects_path%>

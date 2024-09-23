@@ -1,0 +1,37 @@
+<h2>Report a Bug</h2>
+<%= form_with model: [@project,@project.bugs.build] do |form| %>
+    <div class="form-group">
+    <%= form.label :Image, "Upload Image" %>
+    <%= form.file_field :image %>
+  </div>
+
+  <div>
+    <%= form.label :title, "Title" %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div>
+    <%= form.radio_button :bug_type, "bug", checked: @bug.bug_type == "bug" %>
+    <%= form.label :bug_type_feature, "Its a Bug" %><br>
+  </div>
+
+  <div>
+    <%= form.label :status, "Status" %>
+    <%= form.select :status, status_options(@bug.bug_type) %>
+  </div>
+
+  <div>
+    <%= form.label :deadline, "Deadline" %>
+    <%= form.date_field :deadline %>
+  </div>
+
+  <div>
+    <%= form.label :description, "Description" %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div>
+    <%= form.submit "Save Bug" %>
+  </div>
+<% end %>
+<%= link_to "Back", @project%>
