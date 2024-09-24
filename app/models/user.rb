@@ -15,4 +15,8 @@ class User < ApplicationRecord
   # Scopes to filter users based on role
   scope :qas, -> { where(role: :qa) }
   scope :developers, -> { where(role: :developer) }
+
+  has_and_belongs_to_many :bugs, join_table: :bugs_users
+
+  scope :developers, -> { where(role: "developer") }
 end

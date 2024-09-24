@@ -4,7 +4,10 @@ Rails.application.routes.draw do
   member do
     get "redirect_to_edit"
   end
-  resources :bugs
+  resources :bugs do
+    patch :assign_bug_to_self, on: :member
+    get :remove_developer, on: :member
+end
 end
 resources :bugs, only: [ :index ]
   root to: "projects#index"

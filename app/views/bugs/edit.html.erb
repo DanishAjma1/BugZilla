@@ -1,5 +1,5 @@
 <h1>Edit This Bug</h1>
-<%= form_with model: [@project, @bug], local: true do |form| %>
+<%= form_with model: [@project, @bug], url: project_bug_path(@project, @bug), method: :patch, local: true do |form| %>
   <div>
     <%= form.label :bug_type, "bug_type" %><br>
     <% if @bug.bug_type == "feature"%>
@@ -43,6 +43,17 @@
   <div>
     <%= form.submit "Save Bug" %>
   </div>
+<% end %>
+<%= form_with url: assign_bug_to_self_project_bug_path(@project, @bug), method: :patch, local: true do |form| %>
+  <div class="field">
+    <%= form.label :email, "Assign Bug to Yourself with Email" %>
+    <%= text_field_tag :email, current_user.email, readonly: false %>
+  </div>
+
+  <div>
+    <%= form.submit "Assign Bug to Myself" %>
+  </div>
+
 <% end %>
 
 <%= link_to "Back", @project%>

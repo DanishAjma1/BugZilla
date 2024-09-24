@@ -1,9 +1,9 @@
 module BugsHelper
   def status_options(bug_type)
     if bug_type == "feature"
-      [ [ "New", "new" ], [ "Started", "started" ], [ "Completed", "complete" ] ]
+      [ [ "New", "New" ], [ "Started", "Started" ], [ "Completed", "Complete" ] ]
     elsif bug_type == "bug"
-      [ [ "New", "new" ], [ "Started", "started" ], [ "Resolved", "resolved" ] ]
+      [ [ "New", "New" ], [ "Started", "Started" ], [ "Resolved", "Resolved" ] ]
     else
       []
     end
