@@ -59,14 +59,14 @@ class ProjectsController < ApplicationController
     authorize @project
     if @project.update(project_params)
     @project.users.clear
-
     if params[:developer_ids].present?
       @project.users << User.where(id: params[:developer_ids])
     end
     if params[:qa_ids].present?
       @project.users << User.where(id: params[:qa_ids])
     end
-      redirect_to @project, notice: "Project was successfully updated."
+    ProjectMailer.updatedProject(@project, current_user, @project.users)
+    redirect_to @project, notice: "Project was successfully updated."
     else
       render :edit
     end

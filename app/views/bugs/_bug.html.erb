@@ -38,6 +38,12 @@
     <li>No developers assigned to this bug yet.</li>
   <% end %>
   </ul>
+<%= form_with url: assign_bug_to_self_project_bug_path(@project, bug), method: :patch, local: true do |form| %>
+  <div>
+    <%= form.submit "Assign Bug to Myself" %>
+  </div>
+
+<% end %><br>
 
 <%= link_to "Update it", edit_project_bug_path(@project, bug) %>
 <%# <% if can? :Destroy,bug %>

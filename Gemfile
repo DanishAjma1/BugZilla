@@ -58,3 +58,4 @@ end
 gem "devise"
 gem "pundit"
 gem "carrierwave"
+gem "sidekiq"

@@ -44,16 +44,5 @@
     <%= form.submit "Save Bug" %>
   </div>
 <% end %>
-<%= form_with url: assign_bug_to_self_project_bug_path(@project, @bug), method: :patch, local: true do |form| %>
-  <div class="field">
-    <%= form.label :email, "Assign Bug to Yourself with Email" %>
-    <%= text_field_tag :email, current_user.email, readonly: false %>
-  </div>
-
-  <div>
-    <%= form.submit "Assign Bug to Myself" %>
-  </div>
-
-<% end %>
 
 <%= link_to "Back", @project%>

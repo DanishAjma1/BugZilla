@@ -16,6 +16,10 @@ class BugsController < ApplicationController
     end
   end
 
+  def assigned
+    @bugs=current_user.bugs
+  end
+
   def show
   end
 
@@ -35,42 +39,45 @@ class BugsController < ApplicationController
     @bug.creator_id = current_user.id
     authorize @bug
     if @bug.save
-      flash[:alert]="bug created successfully"
+      flash[:alert]="#{@bug.bug_type} created successfully"
       redirect_to @project
     else
       render "new"
     end
   end
 
-  def remove_developer
-    developer = @bug.users.find(params[:developer_id])
+  def assign_bug_to_self
+    authorize @bug
+    if !@bug.users.exists?(current_user.id)
+      @bug.users << current_user
+      BugMailer.bug_assigned(@bug, current_user).deliver_later
 
-    if developer
+      redirect_to @project, notice: "Bug assigned to you successfully."
+    else
+      redirect_to @project, alert: "You cannot assign this bug."
+    end
+  end
+
+  def remove_developer
+    authorize @bug
+    developer = @bug.users.find(params[:developer_id])
+    if developer.id == current_user.id
     @bug.users.delete(params[:developer_id])
     flash[:notice] = "Developer removed successfully."
     else
-    flash[:alert] = "Developer not found."
+    flash[:alert] = "You can't remove any other developer.."
     end
 
     redirect_to @project
   end
 
-  def assign_bug_to_self
-    # Assuming a join table between bug and developers (developers_bugs)
-    if current_user.developer? && !@bug.users.exists?(current_user.id)
-      @bug.users << current_user
-      redirect_to @project, notice: "Bug assigned to you successfully."
-    else
-      redirect_to project_bug_path(@project, @bug), alert: "You cannot assign this bug."
-    end
-  end
   def destroy
     authorize @bug
     if @bug.destroy
-      flash[:alert]="bug deleted successfully"
+      flash[:alert]= "#{@bug.bug_type} deleted successfully"
       redirect_to @project
     else
-      flash[:alert]="bug failed to delete"
+      flash[:alert]="#{@bug.bug_type} failed to delete"
     end
   end
 
@@ -81,10 +88,10 @@ class BugsController < ApplicationController
   def update
     authorize @bug
     if @bug.update(bug_params)
-      flash[:alert]="bug updated.."
+      flash[:alert]="#{@bug.bug_type} updated successcfully.."
       redirect_to projects_path
     else
-      flash[:alert]="bug updated successcfully.."
+      flash[:alert]="#{@bug.bug_type} failed to updated .."
     end
   end
 

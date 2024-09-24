@@ -1,0 +1,45 @@
+<h1>Assigned Bugs</h1>
+
+<% if @bugs.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Status</th>
+        <th>Assigned</th>
+        <th>Image</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <% @bugs.each do |bug| %>
+        <tr>
+          <td><%= bug.title %></td>
+          <td><%= bug.description %></td>
+          <td><%= bug.status %></td>
+          <td>
+            <% if bug.users.present? %>
+                <% bug.users.each do |developer| %>
+                <li><%= developer.email %> (developer) </li>
+                <% end %>
+            <% else %>
+                <li>No developers assigned to this bug yet.</li>
+            <% end %>
+            </td>
+            <td>
+                <div class="image-container">
+  <% if bug.image.present? %>
+  <%= image_tag bug.image.url, alt: "Profile Image", class: "uploaded-image" %>
+<% else %>
+  <p>No profile image available.</p>
+<% end %>
+</div>
+</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No bugs have been assigned to you yet.</p>
+<% end %>

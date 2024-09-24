@@ -4,13 +4,17 @@ class BugPolicy < ApplicationPolicy
    # end
    attr_reader :user, :bug
 
-  def assign_bug?
-    user.role == "developer" # Allow only developers to assign bugs to themselves
-  end
-
   def initialize(user, bug)
     @user = user
     @bug = bug
+  end
+
+  def assign_bug_to_self?
+    user.role == "developer" # Allow only developers to assign bugs to themselves
+  end
+
+  def remove_developer?
+    true
   end
 
   # Only the QA who created the bug can update it
