@@ -1,0 +1,18 @@
+<h1>Project Updated</h1>
+
+<p>Dear <%= @user.name %>,</p>
+
+<p>The project "<strong><%= @project.title %></strong>" has been updated.</p>
+
+<h2>Project Details:</h2>
+<ul>
+  <li><strong>Name:</strong> <%= @project.title %></li>
+  <li><strong>Description:</strong> <%= @project.description %></li>
+  <li><strong>Status:</strong> <%= @project.status %></li>
+  <li><strong>Last Updated:</strong> <%= @project.updated_at.strftime("%B %d, %Y at %I:%M %p") %></li>
+</ul>
+
+<p>If you have any questions, please reach out to us.</p>
+
+<p>Best regards,</p>
+<p>Your Application Team</p>

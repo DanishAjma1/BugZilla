@@ -9,6 +9,14 @@ class BugPolicy < ApplicationPolicy
     @bug = bug
   end
 
+  def assign_bug_to_self?
+    user.role == "developer" # Allow only developers to assign bugs to themselves
+  end
+
+  def remove_developer?
+    true
+  end
+
   # Only the QA who created the bug can update it
   def update?
     if user.developer?

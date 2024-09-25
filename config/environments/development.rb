@@ -64,6 +64,19 @@ Rails.application.configure do
   # Suppress logger output for asset requests.
   config.assets.quiet = true
 
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address:              'smtp.gmail.com',
+    port:                 587,
+    domain:               'yourdomain.com',  # Replace with your domain
+    user_name:            'danishajmalbutt@gmail.com', # Your email address
+    password:             'jjdd eeor aknx fptk',        # Your email password or app password
+    authentication:       'plain',
+    enable_starttls_auto: true
+  }
+
+  config.action_mailer.raise_delivery_errors = true # Enable error notifications
+  config.action_mailer.perform_deliveries = true    # Enable sending emails
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_22_183645) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_25_081101) do
   create_table "bugs", force: :cascade do |t|
     t.string "title"
     t.string "bug_type"
@@ -22,6 +22,16 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_22_183645) do
     t.date "deadline"
     t.integer "project_id"
     t.integer "creator_id"
+  end
+
+  create_table "bugs_users", force: :cascade do |t|
+    t.integer "bug_id", null: false
+    t.integer "user_id", null: false
+    t.string "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bug_id"], name: "index_bugs_users_on_bug_id"
+    t.index ["user_id"], name: "index_bugs_users_on_user_id"
   end
 
   create_table "projects", force: :cascade do |t|
@@ -50,11 +60,14 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_22_183645) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "role"
+    t.string "name"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "bugs", "projects"
   add_foreign_key "bugs", "users", column: "creator_id"
+  add_foreign_key "bugs_users", "bugs"
+  add_foreign_key "bugs_users", "users"
   add_foreign_key "projects", "users", column: "manager_id"
 end

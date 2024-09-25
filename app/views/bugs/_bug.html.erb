@@ -1,61 +1,66 @@
-<% if bug.bug_type == "bug"%>
 
-  <div class="image-container">
-  <% if bug.image.present? %>
-  <%= image_tag bug.image.url, alt: "Profile Image", class: "uploaded-image" %>
-<% else %>
-  <p>No profile image available.</p>
-<% end %>
-</div>
-
-<p><strong>Title:</strong><%= bug.title %></p>
-<p>
-  <h3>Description:</h3>
-  <%= bug.description %>
-</p>
-
-<p>
-  <h3>deadline:</h3>
-  <%= bug.deadline %>
-</p>
-<p>
-  <h3>Type:</h3>
-  <%= bug.bug_type %>
-</p>
-<p>
-  <h3>status:</h3>
-  <%= bug.status %>
-</p>
-<%= link_to "Update it", edit_project_bug_path(@project, bug) %>
-<%# <% if can? :Destroy,bug %>
-<h5><%= link_to "Destroy", [@project, bug], data: {
+<table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Description
+          <th>Status</th>
+          <th>Type</th>
+          <th>*....*</th>
+          <th>Actions</th>
+          <th>Assigning</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @bugs.each do |bug| %>
+        <tr>
+        <% if bug.bug_type == "bug"%>
+            <td><h3><%= bug.title %></h3></td>
+            <td><%= bug.description %></td>
+            <td><%= bug.status %></td>
+            <td><%= bug.bug_type %></td>
+            <td><div class="image-container">
+              <% if bug.image.present? %>
+              <%= image_tag bug.image.url, alt: "Profile Image", class: "uploaded-image" %>
+            <% else %>
+              <p>No profile image available.</p>
+            <% end %>
+            </td>
+            <% elsif bug.bug_type == "feature" && current_user.role != "developer" %>
+              <td><h3><%= bug.title %></h3></td>
+              <td><%= bug.description %></td>
+              <td><%= bug.status %></td>
+              <td><%= bug.bug_type %></td>
+              <td><p>No image available.</p></td>
+            <% end %>
+            <td>
+              <% if current_user.role != "developer" || bug.bug_type == "bug"%>
+<%= link_to "Update it", edit_project_bug_path(@project, bug) %><br>
+<%= link_to "Destroy", [@project, bug], data: {
                                               turbo_method: :delete,
                                               turbo_confirm: "Are you sure?",
-                                            } %></h5>
-<% else %>
-<p><strong>Title:</strong><%= bug.title %></p>
-<h1>Feature</h1>
-<p>
-  <h3>Description:</h3>
-  <%= bug.description %>
-</p>
-
-<p>
-  <h3>deadline:</h3>
-  <%= bug.deadline %>
-</p>
-<p>
-  <h3>Type:</h3>
-  <%= bug.bug_type %>
-</p>
-<p>
-  <h3>status:</h3>
-  <%= bug.status %>
-</p>
-<%= link_to "Update it", edit_project_bug_path(@project, bug) %>
-<%# <% if can? :Destroy,bug %>
-<h5><%= link_to "Destroy", [@project, bug], data: {
-                                              turbo_method: :delete,
-                                              turbo_confirm: "Are you sure?",
-                                            } %></h5>
-<% end %>
+                                            } %>
+            </td>
+            <td>
+              <h3>Assigned Developers:</h3>
+                <ul>
+                  <% if bug.users.present? %>
+                    <% bug.users.each do |developer| %>
+                      <li><%= developer.email %> (developer) </li>
+                      <%= link_to 'Remove', remove_developer_project_bug_path(@project,bug, developer_id: developer.id), method: :delete, data: { confirm: 'Are you sure?' } %>
+                    <% end %>
+                  <% else %>
+                    <li>No developers assigned to this bug yet.</li>
+                  <% end %>
+                  </ul>
+                <%= form_with url: assign_bug_to_self_project_bug_path(@project, bug), method: :patch, local: true do |form| %>
+                  <div>
+                    <%= form.submit "Assign Bug to Myself" %>
+                  </div>
+                <% end %>
+                </td>
+                <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>

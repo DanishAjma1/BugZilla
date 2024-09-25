@@ -1,48 +1,76 @@
 <style>
-  .bugs
-  {
+  .bugs {
     margin-left: 10%;
   }
-  </style>
+</style>
+
 <p>Project is open to view..........</p>
-<h2><%= @project.title %></h1>
+<h2><%= @project.title %></h2>
+
 <div>
-  <p><strong>Description: </strong><%= @project.description%></p>
-  <p><strong>Status: </strong><%= @project.status%></p>
-  <% if @developers.present?%>
+  <p><strong>Description: </strong><%= @project.description %></p>
+  <p><strong>Status: </strong><%= @project.status %></p>
+
+  <% if @developers.present? %>
     <h3>Developers</h3>
     <ul>
-    <% @developers.each do |developer| %>
-    <li><%= developer.email %>
-    <button><%= link_to 'Remove', redirect_to_edit_project_path(@project)%></button>
-    </li>
+      <% @developers.each do |developer| %>
+        <li>
+          <%= developer.email %>
+          <button><%= link_to 'Remove', redirect_to_edit_project_path(@project) %></button>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p><b>No Developers Members assigned</b></p>
   <% end %>
-  </ul>
-  <% else %>
-  <p><b>No Developers Members assigned</b></p>
-  <%end %>
 
-  <% if @qas.present?%>
-  <h3>QA Members</h3>
-  <ul>
-    <% @qas.each do |qa| %>
-      <li><%= qa.email %>(QA)
-      <button><%= link_to 'Remove', redirect_to_edit_project_path(@project) %></button>
-      </li>
-    <% end %>
-  </ul>
+  <% if @qas.present? %>
+    <h3>QA Members</h3>
+    <ul>
+      <% @qas.each do |qa| %>
+        <li>
+          <%= qa.email %> (QA)
+          <button><%= link_to 'Remove', redirect_to_edit_project_path(@project) %></button>
+        </li>
+      <% end %>
+    </ul>
   <% else %>
-  <p>No QA Members assigned</p>
+    <p>No QA Members assigned</p>
   <% end %>
 </div>
 
 <div class="bugs">
-<p>Below the Bugs & Features are listed associated to project.</p>
-<h2>Bugs List<h2>
-<%= render @project.bugs %>
-<h2>Report a Bug OR Add a Feature..:</h2>
-<p><%= link_to "Report Bug", new_project_bug_path(@project, type: "bug") %></p>
-<p><%= link_to "Add Feature", new_project_bug_path(@project, type: "feature") %></p>
+  <p>Below the Bugs & Features are listed associated to project.</p>
 
+  <!-- Search Form -->
+  <h2>Search Bugs</h2>
+  <%= form_with url: project_path(@project), method: :get, local: true do |f| %>
+    <div>
+      <%= f.label :status, "Filter by Status" %>
+      <%= f.select :status, options_for_select(['New', 'Started', 'Complete',"Resolved"], params[:status]), include_blank: "All" %>
+    </div>
+
+    <div>
+      <%= f.label :bug_type, "Filter by Type" %>
+      <%= f.select :bug_type, options_for_select(['bug', 'feature'], params[:bug_type]), include_blank: "All" %>
+    </div>
+
+    <div>
+      <%= f.submit "Search" %>
+    </div>
+  <% end %>
+<h2>Bugs List</h2>
+  <% if @bugs.present? %>
+    <%= render 'bugs/bug', bugs: @bugs %> <!-- Pass the bugs to the partial -->
+  <% else %>
+    <p>No bugs found based on the applied filters.</p>
+  <% end %>
+
+  <!-- Links to add new bugs/features -->
+  <h2>Report a Bug OR Add a Feature..:</h2>
+  <p><%= link_to "Report Bug", new_project_bug_path(@project, type: "bug") %></p>
+  <p><%= link_to "Add Feature", new_project_bug_path(@project, type: "feature") %></p>
 </div>
-<%= link_to "Back", projects_path%>
+
+<%= link_to "Back", projects_path %>
