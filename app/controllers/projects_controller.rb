@@ -21,6 +21,10 @@ class ProjectsController < ApplicationController
 
   def show
     authorize @project
+    @bugs = @project.bugs
+
+    @bugs = @bugs.where(status: params[:status]) if params[:status].present?
+    @bugs = @bugs.where(bug_type: params[:bug_type]) if params[:bug_type].present?
   end
 
   def new
@@ -65,7 +69,7 @@ class ProjectsController < ApplicationController
     if params[:qa_ids].present?
       @project.users << User.where(id: params[:qa_ids])
     end
-    ProjectMailer.updatedProject(@project, current_user, @project.users)
+    ProjectMailer.updated_project(@project, current_user, @project.users.pluck(:id)).deliver_later
     redirect_to @project, notice: "Project was successfully updated."
     else
       render :edit

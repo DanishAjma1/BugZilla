@@ -11,7 +11,14 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def show?
-    project.manager_id == user.id  || user.qa? || user.developer?
+    # Check if the user is the project manager
+    return true if project.manager_id == user.id || user.qa?
+
+    # Check if the user is a QA or Developer and is assigned to the project
+    return true if user.developer? && project.developers.include?(user)
+
+    # Otherwise, deny access
+    false
   end
 
   def create?

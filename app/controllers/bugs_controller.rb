@@ -3,16 +3,15 @@ class BugsController < ApplicationController
   before_action :set_project, only: [ :new, :create, :destroy, :edit, :update, :assign_bug_to_self, :remove_developer ]
   before_action :set_bug, only: [ :show, :edit, :update, :destroy, :assign_bug_to_self, :remove_developer ]
   def index
-    if current_user.qa?
-      @projects=Project.all
-      render "projects/index"
-
-    elsif current_user.developer?
-      @projects = current_user.assigned_projects
-      render "projects/index"
+    if is_qa?
+  @projects = Project.all
+  render "projects/index"
+    elsif is_developer?
+  @projects = current_user.assigned_projects
+  render "projects/index"
     else
-      @projects=Project.none
-      redirect_to root_path
+  @projects = Project.none
+  redirect_to root_path
     end
   end
 
@@ -35,16 +34,31 @@ class BugsController < ApplicationController
   end
 
   def create
-    @bug = @project.bugs.new(bug_params)
-    @bug.creator_id = current_user.id
-    authorize @bug
-    if @bug.save
-      flash[:alert]="#{@bug.bug_type} created successfully"
-      redirect_to @project
+  @bug = @project.bugs.new(bug_params)
+  @bug.creator_id = current_user.id
+  authorize @bug
+
+   # debugger
+   if !@project.bugs.where(title: @bug.title).exists?
+    # Validate the image extension before proceeding to save the bug
+    if image_extension_valid?
+      if @bug.save
+        flash[:notice] = "#{@bug.bug_type.capitalize} created successfully."
+        redirect_to @project
+      else
+        flash[:alert] = "There was an error saving the #{@bug.bug_type}."
+        render "new_#{@bug.bug_type}"
+      end
     else
-      render "new"
+      flash[:alert] = "Image must be a PNG or GIF file."
+      redirect_to new_project_bug_path(@project, type: @bug.bug_type) and return
     end
+   else
+      flash[:alert] = "A bug with this title already exists in this project."
+      redirect_to new_project_bug_path(@project, type: @bug.bug_type)
+   end
   end
+
 
   def assign_bug_to_self
     authorize @bug
@@ -95,12 +109,36 @@ class BugsController < ApplicationController
     end
   end
 
+  def unique_title_within_project(title)
+    if project.bugs.where(title: title).exists?
+      true
+    end
+  end
+
   def set_project
     @project = Project.find(params[:project_id])
   end
 
   def set_bug
     @bug=Bug.find(params[:id])
+  end
+
+  def image_extension_valid?
+    return true unless params[:bug][:image].present?
+
+    allowed_extensions = %w[png gif]
+    uploaded_file = params[:bug][:image]
+    file_extension = File.extname(uploaded_file.original_filename).delete(".").downcase
+
+    allowed_extensions.include?(file_extension)
+  end
+
+  def is_qa?
+    current_user.qa?
+  end
+
+  def is_developer?
+    current_user.developer?
   end
 
   def bug_params
