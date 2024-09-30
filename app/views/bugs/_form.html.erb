@@ -1,50 +1,50 @@
-<%= form_with model: [project,project.bugs.build] do |form| %>
-  <div>
+<%= form_with model: [project, project.bugs.build], local: true do |form| %>
+  <div class="form-group">
     <%= form.label :title, "Title" %>
-    <%= form.text_field :title %>
+    <%= form.text_field :title, class: "form-control", placeholder: "Enter Bug Title" %>
   </div>
 
-  <div>
-    <%= form.label :bug_type, "bug_type" %><br>
-    <%= form.radio_button :bug_type, "feature", checked: @bug.bug_type == "feature" %>
-    <%= form.label :bug_type_feature, "Feature" %><br>
+  <div class="form-group">
+    <%= form.label :bug_type, "Bug Type" %><br>
+    <%= form.radio_button :bug_type, "feature", checked: @bug.bug_type == "feature", id: "bug_type_feature" %>
+    <%= form.label :bug_type_feature, "Feature", for: "bug_type_feature" %><br>
 
-    <%= form.radio_button :bug_type, "bug", checked: @bug.bug_type == "bug" %>
-    <%= form.label :bug_type_bug, "Bug" %>
+    <%= form.radio_button :bug_type, "bug", checked: @bug.bug_type == "bug", id: "bug_type_bug" %>
+    <%= form.label :bug_type_bug, "Bug", for: "bug_type_bug" %>
   </div>
 
-  <div>
+  <div class="form-group">
     <%= form.label :status, "Status" %>
-    <%= form.select :status, status_options(@bug.bug_type) %>
+    <%= form.select :status, status_options(@bug.bug_type), {}, { class: "form-control", id: "status_select" } %>
   </div>
 
-  <div>
+  <div class="form-group">
     <%= form.label :description, "Description" %>
-    <%= form.text_area :description %>
+    <%= form.text_area :description, class: "form-control", rows: 3, placeholder: "Describe the bug or feature" %>
   </div>
 
-  <div>
+  <div class="form-group">
     <%= form.label :deadline, "Deadline" %>
-    <%= form.date_field :deadline %>
+    <%= form.date_field :deadline, class: "form-control" %>
   </div>
 
-  <div>
-    <%= form.submit "Save Bug" %>
+  <div class="form-group">
+    <%= form.submit "Save Bug", class: "btn btn-primary" %>
   </div>
 <% end %>
 
 <script>
-  // JavaScript to update status dropdown based on bug_bug_type selection
+  // JavaScript to update the status dropdown based on bug_type selection
   document.querySelectorAll('input[name="bug[bug_type]"]').forEach(function (radio) {
     radio.addEventListener('change', function () {
-      var selectedbug_type = this.value;
-      var statusSelect = document.querySelector('select[name="bug[status]"]');
+      var selectedBugType = this.value;
+      var statusSelect = document.getElementById('status_select');
       statusSelect.innerHTML = ''; // Clear existing options
 
       var options = [];
-      if (selectedbug_type === "feature") {
+      if (selectedBugType === "feature") {
         options = ["new", "started", "complete"];
-      } else if (selectedbug_type === "bug") {
+      } else if (selectedBugType === "bug") {
         options = ["new", "started", "resolved"];
       }
 

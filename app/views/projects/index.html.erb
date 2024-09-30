@@ -1,6 +1,78 @@
-<h2><%= (current_user.role).upcase %> is Signed_in Now..</h2>
+<style>
+  /* Styling for role and project headers */
+h2 {
+  font-size: 20px;
+  color: #555;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+h1 {
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Projects table styling */
+.projects-list {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  font-size: 16px;
+  text-align: left;
+}
+
+.projects-list th,
+.projects-list td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.projects-list th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.projects-list tr:hover {
+  background-color: #f9f9f9;
+}
+
+/* Button styling */
+.btn {
+  display: inline-block;
+  padding: 10px 15px;
+  text-align: center;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #565e64;
+}
+
+  </style>
+<h2><%= current_user.role.upcase %> is Signed In Now</h2>
 <h1>Projects List</h1>
-<table>
+
+<!-- Projects Table -->
+<table class="projects-list">
   <thead>
     <tr>
       <th>Project Title</th>
@@ -13,5 +85,9 @@
     <%= render partial: "projects/table", locals: { projects: @projects } %>
   </tbody>
 </table>
-<%= link_to "Assigned_bugs",assigned_bugs_path if current_user.developer?%>
-  <p><%= link_to "New Project", new_project_path %></p>
+
+<!-- Links for developers and new project creation -->
+<% if current_user.developer? %>
+  <%= link_to "Assigned Bugs", assigned_bugs_path, class: "btn btn-secondary" %>
+<% end %>
+<p><%= link_to "New Project", new_project_path, class: "btn btn-primary" %></p>

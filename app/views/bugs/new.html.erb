@@ -1,4 +1,30 @@
-<h1>Add new Bug</h1>
+<h1 class="text-center mb-4">Add New Bug</h1>
 
-<%= render "bugs/form", project:@project %>
-<%= link_to "Back", projects_path%>
+<div class="container">
+  <%= render "bugs/form", project: @project %>
+  <div class="text-center mt-3">
+    <%= link_to "Back", projects_path, class: "btn btn-secondary" %>
+  </div>
+</div>
+
+<style>
+  h1 {
+    color: #333;
+  }
+
+  .container {
+    max-width: 600px; /* Center the form and limit width */
+    margin: 0 auto; /* Center container */
+  }
+
+  .btn-secondary {
+    margin-top: 20px;
+    background-color: #6c757d; /* Bootstrap gray */
+    border-color: #6c757d;
+  }
+
+  .btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+  }
+</style>

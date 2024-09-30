@@ -1,66 +1,155 @@
+<style>
+  /* Table Styling */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 1rem;
+    font-family: 'Arial', sans-serif;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  th {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  tr:hover {
+    background-color: #f1f1f1;
+  }
+
+  td h3 {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+
+  .image-container {
+    text-align: center;
+  }
+
+  .uploaded-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  /* No Image Available Text */
+  .no-image {
+    color: #777;
+    font-style: italic;
+  }
+
+  /* Button Styling */
+  a, input[type="submit"] {
+    padding: 8px 12px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+  }
+
+  a:hover, input[type="submit"]:hover {
+    background-color: #218838;
+  }
+
+  .delete-btn {
+    background-color: #dc3545;
+  }
+
+  .delete-btn:hover {
+    background-color: #c82333;
+  }
+
+  /* Assigned Developers List */
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  ul li {
+    margin-bottom: 5px;
+  }
+</style>
 
 <table>
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Description
-          <th>Status</th>
-          <th>Type</th>
-          <th>*....*</th>
-          <th>Actions</th>
-          <th>Assigning</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @bugs.each do |bug| %>
-        <tr>
-        <% if bug.bug_type == "bug"%>
-            <td><h3><%= bug.title %></h3></td>
-            <td><%= bug.description %></td>
-            <td><%= bug.status %></td>
-            <td><%= bug.bug_type %></td>
-            <td><div class="image-container">
-              <% if bug.image.present? %>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Status</th>
+      <th>Type</th>
+      <th>Image</th>
+      <th>Actions</th>
+      <th>Assigning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @bugs.each do |bug| %>
+    <% if bug.bug_type == "feature" && current_user.role != "developer" %>
+    <tr>
+        <td><h3><%= bug.title %></h3></td>
+        <td><%= bug.description %></td>
+        <td><%= bug.status %></td>
+        <td><%= bug.bug_type %></td>
+        <td><p class="no-image">No image available.</p></td>
+    
+      <% elsif bug.bug_type == "bug" %>
+        <td><h3><%= bug.title %></h3></td>
+        <td><%= bug.description %></td>
+        <td><%= bug.status %></td>
+        <td><%= bug.bug_type %></td>
+        <td>
+          <div class="image-container">
+            <% if bug.image.present? %>
               <%= image_tag bug.image.url, alt: "Profile Image", class: "uploaded-image" %>
             <% else %>
-              <p>No profile image available.</p>
+              <p class="no-image">No image available.</p>
             <% end %>
-            </td>
-            <% elsif bug.bug_type == "feature" && current_user.role != "developer" %>
-              <td><h3><%= bug.title %></h3></td>
-              <td><%= bug.description %></td>
-              <td><%= bug.status %></td>
-              <td><%= bug.bug_type %></td>
-              <td><p>No image available.</p></td>
-            <% end %>
-            <td>
-              <% if current_user.role != "developer" || bug.bug_type == "bug"%>
-<%= link_to "Update it", edit_project_bug_path(@project, bug) %><br>
-<%= link_to "Destroy", [@project, bug], data: {
-                                              turbo_method: :delete,
-                                              turbo_confirm: "Are you sure?",
-                                            } %>
-            </td>
-            <td>
-              <h3>Assigned Developers:</h3>
-                <ul>
-                  <% if bug.users.present? %>
-                    <% bug.users.each do |developer| %>
-                      <li><%= developer.email %> (developer) </li>
-                      <%= link_to 'Remove', remove_developer_project_bug_path(@project,bug, developer_id: developer.id), method: :delete, data: { confirm: 'Are you sure?' } %>
-                    <% end %>
-                  <% else %>
-                    <li>No developers assigned to this bug yet.</li>
-                  <% end %>
-                  </ul>
-                <%= form_with url: assign_bug_to_self_project_bug_path(@project, bug), method: :patch, local: true do |form| %>
-                  <div>
-                    <%= form.submit "Assign Bug to Myself" %>
-                  </div>
-                <% end %>
-                </td>
-                <% end %>
-          </tr>
+          </div>
+        </td>
+
+      <td>
+        <% if current_user.role != "developer" || bug.bug_type == "bug" %>
+          <a href="<%= edit_project_bug_path(@project, bug) %>">Update it</a><br>
+          <a href="<%= project_bug_path(@project, bug) %>" class="delete-btn" data-turbo-method="delete" data-turbo-confirm="Are you sure?">Destroy</a>
         <% end %>
-      </tbody>
-    </table>
+      </td>
+      <td>
+        <h3>Assigned Developers:</h3>
+        <ul>
+          <% if bug.users.present? %>
+            <% bug.users.each do |developer| %>
+              <li><%= developer.email %> (developer) </li>
+              <a href="<%= remove_developer_project_bug_path(@project, bug, developer_id: developer.id) %>" turbo-method="delete" turbo-confirm="Are you sure?">Remove</a>
+            <% end %>
+          <% else %>
+            <li>No developers assigned to this bug yet.</li>
+          <% end %>
+        </ul>
+
+        <%= form_with url: assign_bug_to_self_project_bug_path(@project, bug), method: :patch, local: true do |form| %>
+          <div>
+            <%= form.submit "Assign Bug to Myself" %>
+          </div>
+        <% end %>
+      </td>
+    </tr>
+    <% end %>
+    <% end %>
+  </tbody>
+</table>

@@ -1,32 +1,116 @@
-<%= form_with(model: @project) do |form| %>
-  <div>
-    <%= form.label :Title %><br>
-    <%= form.text_field :title %>
+<style>
+/* General form styles */
+.project-form {
+  width: 600px;
+  margin: 0 auto; /* Center the form */
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Form groups */
+.form-group {
+  margin-bottom: 15px;
+}
+
+/* Form labels */
+.form-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #333;
+}
+
+/* Text inputs */
+.form-input,
+.form-textarea,
+.form-select {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Textarea */
+.form-textarea {
+  height: 100px;
+  resize: vertical; /* Allow vertical resize */
+}
+
+/* Select boxes */
+.form-select {
+  width: 100%;
+  height: auto;
+}
+
+/* Submit button */
+.form-submit {
+  display: inline-block;
+  background-color: #28a745;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-submit:hover {
+  background-color: #218838;
+}
+
+/* Back link */
+.form-back-link {
+  display: inline-block;
+  margin-left: 10px;
+  padding: 10px 20px;
+  color: #007bff;
+  text-decoration: none;
+  border-radius: 4px;
+  border: 1px solid #007bff;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.form-back-link:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+
+</style>
+<%= form_with(model: @project, class: "project-form") do |form| %>
+  <div class="form-group">
+    <%= form.label :title, class: "form-label" %>
+    <%= form.text_field :title, class: "form-input" %>
   </div>
 
-  <div>
-    <%= form.label :Description %><br>
-    <%= form.text_area :description %>
+  <div class="form-group">
+    <%= form.label :description, class: "form-label" %>
+    <%= form.text_area :description, class: "form-textarea" %>
   </div>
 
-    <div>
-      
-    <%= form.label :status %><br />
-    <%# <%= f.select :role, options_for_select(["admin", "user"]) %>
-    <%= form.select :status, options_for_select(Project.statuses.keys.map { |s| [s.humanize, s] }) %>
+  <div class="form-group">
+    <%= form.label :status, class: "form-label" %>
+    <%= form.select :status, options_for_select(Project.statuses.keys.map { |s| [s.humanize, s] }), {}, class: "form-select" %>
   </div>
-  <div>
-   <!-- Select Developers -->
-  <%= form.label :developers, 'Assign Developers' %><br>
-  <%# <%= collection_select :project, :developer_ids, User.developers, :id, :email, { selected: @project.users.developers.pluck(:id) }, { multiple: true, name: "developer_ids[]" } %>
-    <%= collection_select :project, :developer_ids, User.developers, :id, :email, { selected: @project.users.developers.none }, { multiple: true, name: "developer_ids[]" } %>
 
-  <!-- Select QAs --><div class="field">
-    <%= form.label :qas, 'Assign QA Members' %><br>
-    <%= collection_select :project, :qa_ids, User.qas, :id, :email, { selected: @project.users.qas.none }, { multiple: true, name: "qa_ids[]" } %>
+  <div class="form-group">
+    <%= form.label :developers, 'Assign Developers', class: "form-label" %>
+    <%= collection_select :project, :developer_ids, User.developers, :id, :email, { selected: @project.users.developers.none }, { multiple: true, class: "form-select", name: "developer_ids[]" } %>
   </div>
-<div>
-  <%= form.submit "Save Project" %>
+
+  <div class="form-group">
+    <%= form.label :qas, 'Assign QA Members', class: "form-label" %>
+    <%= collection_select :project, :qa_ids, User.qas, :id, :email, { selected: @project.users.qas.none }, { multiple: true, class: "form-select", name: "qa_ids[]" } %>
+  </div>
+
+  <div class="form-actions">
+    <%= form.submit "Save Project", class: "form-submit" %>
+    <%= link_to "Back", projects_path, class: "form-back-link" %>
   </div>
 <% end %>
-<%= link_to "Back", projects_path%>

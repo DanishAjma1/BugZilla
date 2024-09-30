@@ -1,41 +1,42 @@
 <h1>Assigned Bugs</h1>
 
 <% if @bugs.any? %>
-  <table>
+  <table class="table table-striped">
     <thead>
       <tr>
         <th>Title</th>
         <th>Description</th>
         <th>Status</th>
-        <th>Assigned</th>
+        <th>Assigned Developers</th>
         <th>Image</th>
-
       </tr>
     </thead>
     <tbody>
       <% @bugs.each do |bug| %>
         <tr>
           <td><%= bug.title %></td>
-          <td><%= bug.description %></td>
-          <td><%= bug.status %></td>
+          <td><%= truncate(bug.description, length: 100) %></td> <!-- Truncated description for better readability -->
+          <td><%= bug.status.humanize %></td> <!-- Humanizes the status -->
           <td>
             <% if bug.users.present? %>
+              <ul class="assigned-developers">
                 <% bug.users.each do |developer| %>
-                <li><%= developer.email %> (developer) </li>
+                  <li><%= developer.email %> (Developer)</li>
                 <% end %>
+              </ul>
             <% else %>
-                <li>No developers assigned to this bug yet.</li>
+              <p>No developers assigned to this bug yet.</p>
             <% end %>
-            </td>
-            <td>
-                <div class="image-container">
-  <% if bug.image.present? %>
-  <%= image_tag bug.image.url, alt: "Profile Image", class: "uploaded-image" %>
-<% else %>
-  <p>No profile image available.</p>
-<% end %>
-</div>
-</td>
+          </td>
+          <td>
+            <div class="image-container">
+              <% if bug.image.present? %>
+                <%= image_tag bug.image.url, alt: "Bug Image", class: "uploaded-image" %>
+              <% else %>
+                <p>No image available.</p>
+              <% end %>
+            </div>
+          </td>
         </tr>
       <% end %>
     </tbody>
@@ -43,4 +44,32 @@
 <% else %>
   <p>No bugs have been assigned to you yet.</p>
 <% end %>
-<%= link_to "Back", bugs_path%>
+
+<%= link_to "Back", bugs_path, class: "btn btn-primary" %>
+<style>
+  .table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+}
+
+.image-container {
+  max-width: 100px; /* Limit image width */
+  max-height: 100px; /* Limit image height */
+}
+
+.uploaded-image {
+  width: 100%; /* Ensure image fits within the container */
+  height: auto; /* Maintain aspect ratio */
+}
+
+.assigned-developers {
+  list-style-type: none; /* Remove bullet points */
+  padding: 0; /* Remove padding */
+}
+</style>

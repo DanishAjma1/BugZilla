@@ -1,11 +1,96 @@
-<% projects.each do |project| %>
-  <tr>
-    <td><%= link_to project.title, project %></td>
-    <td><%= project.description %></td>
-    <td><%= project.status %></td>
-      <td><%= link_to "Delete", project_path(project), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %></td>
-    <td>
-      <%= link_to "Edit", edit_project_path(project) %>
-    </td>
-  </tr>
-<% end %>
+<style>
+  /* Table styling */
+.projects-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 16px;
+  text-align: left;
+}
+
+/* Table headers */
+.projects-table th {
+  background-color: #f4f4f4;
+  padding: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-bottom: 2px solid #ddd;
+}
+
+/* Table rows */
+.projects-table td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Hover effect for rows */
+.projects-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Links */
+.project-link {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.project-link:hover {
+  text-decoration: underline;
+}
+
+/* Action buttons */
+.btn-edit,
+.btn-delete {
+  display: inline-block;
+  padding: 8px 12px;
+  margin-right: 5px;
+  font-size: 14px;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+/* Edit button styling */
+.btn-edit {
+  background-color: #ffc107;
+  color: #fff;
+}
+
+.btn-edit:hover {
+  background-color: #e0a800;
+}
+
+/* Delete button styling */
+.btn-delete {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.btn-delete:hover {
+  background-color: #c82333;
+}
+
+  </style>
+<table class="projects-table">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% projects.each do |project| %>
+      <tr>
+        <td><%= link_to project.title, project, class: "project-link" %></td>
+        <td><%= project.description %></td>
+        <td><%= project.status.capitalize %></td>
+        <td>
+          <%= link_to "Edit", edit_project_path(project), class: "btn-edit" %>
+          <%= link_to "Delete", project_path(project), class: "btn-delete", data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
