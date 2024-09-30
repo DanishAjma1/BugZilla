@@ -82,7 +82,7 @@ Access the application at http://localhost:3000.
 
 ## Screenshots
 
-![Screenshot 1](https://github.com/your_username/your_repo/blob/main/Media/Screenshot%20from%202024-09-27%2014-49-44.png?raw=true)
+![Screenshot 1]([https://github.com/your_username/your_repo/blob/main/Media/Screenshot%20from%202024-09-27%2014-49-44.png?raw=true](https://github.com/DanishAjma1/BugZilla/blob/master/Media/Screenshot%20from%202024-09-27%2014-49-44.png))
 ![Screenshot 2](https://github.com/your_username/your_repo/blob/main/Media/Screenshot%20from%202024-09-27%2014-51-41.png?raw=true)
 ![Screenshot 3](https://github.com/your_username/your_repo/blob/main/Media/Screenshot%20from%202024-09-27%2014-53-29.png?raw=true)
 ![Screenshot 4](https://github.com/your_username/your_repo/blob/main/Media/Screenshot%20from%202024-09-27%2014-54-02.png?raw=true)
