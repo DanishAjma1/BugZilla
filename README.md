@@ -78,14 +78,20 @@ Start the Rails server:
 rails server
 Access the application at http://localhost:3000.
 
-file:///home/danish/Documents/Language/RAR/Tasks/Bugzilla/Media/Screenshot%20from%202024-09-27%2014-49-44.png
-file:///home/danish/Documents/Language/RAR/Tasks/Bugzilla/Media/Screenshot%20from%202024-09-27%2014-51-41.png
-file:///home/danish/Documents/Language/RAR/Tasks/Bugzilla/Media/Screenshot%20from%202024-09-27%2014-53-29.png
-file:///home/danish/Documents/Language/RAR/Tasks/Bugzilla/Media/Screenshot%20from%202024-09-27%2014-54-02.png
-file:///home/danish/Documents/Language/RAR/Tasks/Bugzilla/Media/Screenshot%20from%202024-09-27%2014-54-29.png
-file:///home/danish/Documents/Language/RAR/Tasks/Bugzilla/Media/Screenshot%20from%202024-09-27%2014-54-44.png
-file:///home/danish/Documents/Language/RAR/Tasks/Bugzilla/Media/Screenshot%20from%202024-09-27%2014-55-13.png
+# Bug Tracking System
 
-file:///home/danish/Documents/Language/RAR/Tasks/Bugzilla/Media/Screencast%20from%2009-30-2024%2003:25:43%20PM.webm
+## Screenshots
+
+![Screenshot 1](https://github.com/your_username/your_repo/blob/main/Media/Screenshot%20from%202024-09-27%2014-49-44.png?raw=true)
+![Screenshot 2](https://github.com/your_username/your_repo/blob/main/Media/Screenshot%20from%202024-09-27%2014-51-41.png?raw=true)
+![Screenshot 3](https://github.com/your_username/your_repo/blob/main/Media/Screenshot%20from%202024-09-27%2014-53-29.png?raw=true)
+![Screenshot 4](https://github.com/your_username/your_repo/blob/main/Media/Screenshot%20from%202024-09-27%2014-54-02.png?raw=true)
+![Screenshot 5](https://github.com/your_username/your_repo/blob/main/Media/Screenshot%20from%202024-09-27%2014-54-29.png?raw=true)
+![Screenshot 6](https://github.com/your_username/your_repo/blob/main/Media/Screenshot%20from%202024-09-27%2014-54-44.png?raw=true)
+![Screenshot 7](https://github.com/your_username/your_repo/blob/main/Media/Screenshot%20from%202024-09-27%2014-55-13.png?raw=true)
+
+## Video Demonstration
+
+[Watch the screencast](https://github.com/your_username/your_repo/blob/main/Media/Screencast%20from%2009-30-2024%2003:25:43%20PM.webm?raw=true)
 
 
