@@ -81,14 +81,22 @@ Access the application at http://localhost:3000.
 # Bug Tracking System
 
 ## Screenshots
+![Screenshot from 2024-09-27 14-49-44](https://github.com/user-attachments/assets/6d55394e-86d4-48f0-b476-de2656af1614)
+![Screenshot from 2024-09-27 14-51-41](https://github.com/user-attachments/assets/ab666da3-3f1d-4049-a77b-bbfcd0ac2579)
+![Screenshot from 2024-09-27 14-53-29](https://github.com/user-attachments/assets/95cf7263-e4a5-481d-ba8d-923a74595c68)
+![Screenshot from 2024-09-27 14-54-02](https://github.com/user-attachments/assets/096cec6a-8d0b-4713-b9fa-a597a8e8a548)
+![Screenshot from 2024-09-27 14-54-29](https://github.com/user-attachments/assets/b9dd76fd-a344-4548-aa38-dd8024b64c22)
+![Screenshot from 2024-09-27 14-54-44](https://github.com/user-attachments/assets/a005a1d2-68a0-4054-856e-502102590660)
+![Screenshot from 2024-09-27 14-55-13](https://github.com/user-attachments/assets/aa60b5dc-d425-440f-b882-ae0d8d37d040)
 
-![Screenshot 1](Media/Screenshot from 2024-09-27 14-49-44.png)
-![Screenshot 2](https://github.com/your_username/your_repo/blob/main/Media/Screenshot%20from%202024-09-27%2014-51-41.png?raw=true)
-![Screenshot 3](https://github.com/your_username/your_repo/blob/main/Media/Screenshot%20from%202024-09-27%2014-53-29.png?raw=true)
-![Screenshot 4](https://github.com/your_username/your_repo/blob/main/Media/Screenshot%20from%202024-09-27%2014-54-02.png?raw=true)
-![Screenshot 5](https://github.com/your_username/your_repo/blob/main/Media/Screenshot%20from%202024-09-27%2014-54-29.png?raw=true)
-![Screenshot 6](https://github.com/your_username/your_repo/blob/main/Media/Screenshot%20from%202024-09-27%2014-54-44.png?raw=true)
-![Screenshot 7](https://github.com/your_username/your_repo/blob/main/Media/Screenshot%20from%202024-09-27%2014-55-13.png?raw=true)
+**ScreenCast**
+
+
+
+
+
+
+
 
 ## Video Demonstration
 
